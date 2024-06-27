@@ -1,4 +1,5 @@
 import {
+    Navigate,
     createBrowserRouter,
   } from "react-router-dom";
 import QuizResults from "./QuizResults";
@@ -19,7 +20,12 @@ const router = createBrowserRouter([
       element: (<QuizResults />),
     },
      {
+        path:'/',
         element: (<QuizMaker/>),
+      },
+      {
+        path:'*',
+        element: (<Navigate to={routes.home}/>),
       },
     ]);
 
