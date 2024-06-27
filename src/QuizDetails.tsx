@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import QuizItem from "./QuizItem";
-import { QuizData } from "./QuizModels";
 import { ActionsNames, useQuizQuizDispatcher, useQuizState } from "./QuizContext";
+import { QuizData } from "./QuizModels";
 
 interface QuizDetailsProps
 {
@@ -11,7 +11,7 @@ interface QuizDetailsProps
 
 function QuizDetails({category,difficulty}:QuizDetailsProps){
     const dispach = useQuizQuizDispatcher();
-    const {data} = useQuizState();
+    const {data , resultAvailable} = useQuizState();
 
     useEffect(() => {
         console.log('updating',category,difficulty);
@@ -23,7 +23,10 @@ function QuizDetails({category,difficulty}:QuizDetailsProps){
                 console.log(url);
                 fetch(url)
                 .then(response => response.json())
-                .then(data =>  dispach({type: ActionsNames.Fill, data:data.results}))
+                .then(json =>  {
+                    const data:QuizData[] = json.results;
+                    dispach({type: ActionsNames.Fill, data})
+                })
                     }
         },[category,difficulty,dispach]);
 
@@ -34,6 +37,9 @@ function QuizDetails({category,difficulty}:QuizDetailsProps){
                     <QuizItem key={i} data={item}/>
                 ))
             }
+            <div className="d-grid gap-2">
+                <button className="btn btn-secondary" type="button" hidden={!resultAvailable}>Submit</button>
+            </div>
         </div>
     );
 }

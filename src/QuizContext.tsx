@@ -5,11 +5,13 @@ import { Difficulty, QuizAnswer, QuizData, QuizStateRecord } from "./QuizModels"
 interface QuizState
 {
    data:QuizStateRecord[]
+   resultAvailable:boolean
 }
 
 const defaultState :QuizState =
 {
-    data:[]
+    data:[],
+    resultAvailable:false
 }
 
 export type QuizSelector =
@@ -38,26 +40,27 @@ function defaultAction(action:Actions)
 function quizReducer(state:QuizState, action:Actions):QuizState
 {
     console.log('reducing ', action);
+    console.log('state ', state);
     switch(action.type)
     {
         case ActionsNames.Clear:
             return defaultState;
         case ActionsNames.Fill:
-            return fill(state, action.data);
+            return fill(action.data);
         case ActionsNames.SelectAnswer:
             return SelectAnswer(state, action.recordIndex, action.selectedItem);
     }
     return state;
 }
 
-    function fill(state:QuizState,data:QuizData[]):QuizState
+    function fill(data:QuizData[]):QuizState
     {
         const _data = data.map<QuizStateRecord>((item, i)=>({index:i,
             question:item.question,
             correctAnswerdIndex:-1,
             answers:randomOrder(item)
           })); 
-        return {...state, data:_data};
+        return {...defaultState, data:_data};
     }
 
     function randomOrder(data:QuizData):QuizAnswer[]
@@ -82,7 +85,12 @@ function quizReducer(state:QuizState, action:Actions):QuizState
         selected.answers.forEach(i=> i.selected = i.index === selectedItem);
         const data = [...state.data]
         data[recordIndex]={...selected};
-        return {...state, data}
+
+        let resultAvailable = true;
+        data.forEach(i=> {
+            resultAvailable = resultAvailable && i.answers.some(a=> a.selected);
+        });
+        return {...state, data, resultAvailable}
     }
 
 
