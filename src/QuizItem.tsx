@@ -31,11 +31,12 @@ function QuizItem({data, readOnly}:QuizItemProps)
     
     return(
         <>
-        <p>{data.question}</p>
+        <p dangerouslySetInnerHTML={{ __html:data.question}}></p>
         <div className="m-2">
             {
                 data.answers.map((item) =>(
-                    <button disabled={readOnly} type="button" className={getButtonClassess(item)} key={item.index} onClick={()=>selectItem(item.index)}>{item.value}</button>
+                    <button disabled={readOnly} type="button" className={getButtonClassess(item)} key={item.index} onClick={()=>selectItem(item.index)}
+                    ><span dangerouslySetInnerHTML={{ __html:item.value}} /></button>
                 )
                 )
             }
