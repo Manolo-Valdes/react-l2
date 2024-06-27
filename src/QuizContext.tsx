@@ -55,15 +55,21 @@ function quizReducer(state:QuizState, action:Actions):QuizState
 
     function fill(data:QuizData[]):QuizState
     {
-        const _data = data.map<QuizStateRecord>((item, i)=>({index:i,
-            question:item.question,
-            correctAnswerdIndex:-1,
-            answers:randomOrder(item)
-          })); 
+        const _data = data.map<QuizStateRecord>((item, i)=>
+            {
+               const {answers,correctAnswerdIndex}=randomOrder(item);
+
+                return {index:i,
+                    question:item.question,
+                    correctAnswerdIndex,
+                    answers
+                  }
+            }
+            ); 
         return {...defaultState, data:_data};
     }
 
-    function randomOrder(data:QuizData):QuizAnswer[]
+    function randomOrder(data:QuizData):{answers:QuizAnswer[],correctAnswerdIndex:number}
     {
         const values:string[] = [...data.incorrect_answers, data.correct_answer]
         for (let i = values.length - 1; i > 0; i--) {
@@ -72,7 +78,9 @@ function quizReducer(state:QuizState, action:Actions):QuizState
           values[i] = values[j];
           values[j] = temp;
         }
-        return values.map<QuizAnswer>((v,i) => ({index:i,value:v,selected:false}));
+        const correctAnswerdIndex = values.indexOf(data.correct_answer);
+        const answers= values.map<QuizAnswer>((v,i) => ({index:i,value:v,selected:false}));
+        return {answers, correctAnswerdIndex}
     }
 
 

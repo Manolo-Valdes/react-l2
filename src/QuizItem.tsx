@@ -1,18 +1,28 @@
-import { QuizStateRecord } from "./QuizModels";
+import { QuizAnswer, QuizStateRecord } from "./QuizModels";
 import { ActionsNames, useQuizQuizDispatcher } from "./QuizContext";
 
 export interface QuizItemProps
 {
-    data:QuizStateRecord
+    data:QuizStateRecord,
+    readOnly:boolean
 }
 
 
 
-function QuizItem({data}:QuizItemProps)
+function QuizItem({data, readOnly}:QuizItemProps)
 {
     const dispach = useQuizQuizDispatcher();
 
-     const getButtonClassess = (selected:boolean)=> "btn btn-outline-success m-1" + (selected ? " active":"") 
+     const getButtonClassess = (item:QuizAnswer)=>{
+        if (readOnly)
+            {
+                if (item.index === data.correctAnswerdIndex)
+                    return "btn btn-success m-1";
+                if (item.selected && item.index !== data.correctAnswerdIndex)
+                    return "btn btn-danger m-1";
+            }
+        return "btn btn-outline-success m-1" + (item.selected ? " active":"");
+     }  
 
      const selectItem = (index:number) =>
         {
@@ -25,7 +35,7 @@ function QuizItem({data}:QuizItemProps)
         <div className="m-2">
             {
                 data.answers.map((item) =>(
-                    <button  type="button" className={getButtonClassess(item.selected)} key={item.index} onClick={()=>selectItem(item.index)}>{item.value}</button>
+                    <button disabled={readOnly} type="button" className={getButtonClassess(item)} key={item.index} onClick={()=>selectItem(item.index)}>{item.value}</button>
                 )
                 )
             }
