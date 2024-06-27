@@ -36,21 +36,21 @@ const onButtonClick = () =>
 
 return (
     <>
-    <div>
-    <select id="categorySelect" onChange={onCategoryChange}>
+    <div className="d-inline-flex">
+    <select id="categorySelect" className="form-select" onChange={onCategoryChange}>
     <option value="" hidden>Select a category</option>
         {
             categories.map(c => 
                 (<option key={c.id} value={c.id}>{c.name}</option>))
         }
     </select>
-    <select id="difficultySelect" onChange={onDifficultyChange}>
+    <select id="difficultySelect" className="form-select" onChange={onDifficultyChange}>
     <option value="" hidden>Select difficulty</option>
     <option value="easy">Easy</option>
     <option value="medium">Medium</option>
     <option value="hard">Hard</option>
     </select>
-    <button id="createBtn" onClick={onButtonClick}>Create</button>
+    <button id="createBtn" className="btn btn-outline-secondary rounded-end" onClick={onButtonClick}>Create</button>
     </div>
     </>
 );
