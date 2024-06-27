@@ -4,13 +4,18 @@ import {
 import QuizResults from "./QuizResults";
 import QuizMaker from "./QuizMaker";
 
+export const enum routes{
+    home="/react-l2",
+    results="/react-l2/results"
+};
+
 const router = createBrowserRouter([
     {
-      path: "/react-l2",
+      path: routes.home,
       element: (<QuizMaker/>),
     },
     {
-      path: "/react-l2/results",
+      path: routes.results,
       element: (<QuizResults />),
     },
      {

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ActionsNames, useQuizQuizDispatcher, useQuizState } from "./QuizContext";
 import QuizDetails from "./QuizDetails";
 import { useEffect, useState } from "react";
+import { routes } from "./Router";
 
 
 function QuizResults(){
@@ -21,7 +22,7 @@ function QuizResults(){
     function onButtonClick()
     {
         dispach({type:ActionsNames.Clear});
-        navigate('/');
+        navigate(routes.home);
  
     }
     function getScoreBg(score:number):string

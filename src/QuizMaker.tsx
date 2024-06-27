@@ -4,6 +4,7 @@ import QuizDetails from "./QuizDetails";
 import { ActionsNames, useQuizQuizDispatcher, useQuizState } from "./QuizContext";
 import { useNavigate } from "react-router-dom";
 import { QuizData } from "./QuizModels";
+import { routes } from "./Router";
 
 
 function QuizMaker()
@@ -40,7 +41,7 @@ function QuizMaker()
 
     function onButtonClick()
     {
-        navigate('/results');
+        navigate(routes.results);
     }
 
     return(
