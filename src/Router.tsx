@@ -6,13 +6,16 @@ import QuizMaker from "./QuizMaker";
 
 const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/react-l2",
       element: (<QuizMaker/>),
     },
     {
-      path: "/results",
+      path: "/react-l2/results",
       element: (<QuizResults />),
     },
-  ]);
+     {
+        element: (<QuizMaker/>),
+      },
+    ]);
 
 export default router;
