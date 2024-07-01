@@ -1,5 +1,5 @@
 import { Dispatch, ReactNode, createContext, useContext, useReducer } from "react";
-import { Difficulty, QuizAnswer, QuizData, QuizStateRecord } from "./QuizModels";
+import { QuizAnswer, QuizData, QuizStateRecord } from "./QuizModels";
 
 
 interface QuizState
@@ -14,13 +14,6 @@ const defaultState :QuizState =
     resultAvailable:false
 }
 
-export type QuizSelector =
-{
-    category:number,
-    difficulty:Difficulty,
-    index:number
-}
-
 export enum ActionsNames {
     Clear = "Clear State",
     Fill = "Fill State",
@@ -32,7 +25,7 @@ type Actions = {type: ActionsNames.Clear}|
                {type: ActionsNames.SelectAnswer,recordIndex:number , selectedItem:number};
                
 
-function defaultAction(action:Actions)
+function defaultActiondispatcher(action:Actions)
 {
 
 }
@@ -103,7 +96,7 @@ function quizReducer(state:QuizState, action:Actions):QuizState
 
 
 const QuizStateContext = createContext<QuizState>(defaultState);
-const QuizDispatchContext = createContext<Dispatch<Actions>>(defaultAction);
+const QuizDispatchContext = createContext<Dispatch<Actions>>(defaultActiondispatcher);
 
 export function QuizProvider({ children }:{children:ReactNode}) {
     const [state, dispatch] = useReducer(quizReducer, defaultState);
